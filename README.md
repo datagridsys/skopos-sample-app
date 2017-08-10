@@ -9,15 +9,6 @@ The application in question exposes two web interfaces - one that allows votes t
 
 ![skopos sample app](skopos-sample-app.png)
 
-### Download/Run Skopos image
-
-```
-
-docker run -d -p 8100:8100 --restart=unless-stopped --name skopos \
-    -v /var/run/docker.sock:/var/run/docker.sock opsani/skopos:edge
-    
-```
-
 ### Download and Install Skopos CLI
 
 The CLI is a thin wrapper on top of the Skopos REST API. The CLI does not need to run on the same host as Skopos, it can be run on any host with network access to the Skopos engine.
@@ -45,6 +36,18 @@ We will need the application model, environment file and same sample scripts whi
 git clone https://github.com/datagridsys/skopos-sample-app.git
 ```
 
+### Download/Run Skopos image
+
+```
+
+cd skopos-sample-app
+docker run -d -p 8100:8100 --restart=unless-stopped --name skopos   \
+    -v /var/run/docker.sock:/var/run/docker.sock                  \
+    -v $(pwd)/scripts:/skopos/user/bin/         \
+    opsani/skopos:edge
+    
+```
+
 ### Open The Skopos UI
 Open your browser to ```http://localhost:8100``` 
 
@@ -53,7 +56,7 @@ Note: replace `localhost` with the actual host or IP address where Skopos runs.
 <img src="http://opsani.com/wp-content/uploads/2017/08/Discover1.png" width="250">
 
 Click the ```Use Our Demo App``` option.
-Name your demo app and click ```Load```.
+Name your demo app `skopos-sample` and click ```Load```.
 
 <img src="DemoApp.png" width="250">
 
@@ -79,7 +82,6 @@ Note: replace `localhost` with the actual host or IP address where Skopos runs.
 ### Upgrade to a new version
 This repository contains a second model, where the versions of two of the components - result and vote - are updated to 2.0. You can load the new model with the command below. Skopos would generate a plan for getting from the current state (v1.0) to the desired state as described in the model (v2.0 of vote and result components).
 
-
 ```
 ~/bin/sks-ctl load -bind localhost:8100 -project skopos-sample -env env.yaml model-v2.yaml
 ```
@@ -87,6 +89,8 @@ This repository contains a second model, where the versions of two of the compon
 Note: replace `localhost` with the actual host or IP address where Skopos runs.
 
 Review the new plan in UI. Notice how, unlike the initial deploy, it only changes two components and instead of a deploy it does a rolling upgrade, making sure each component stays responsive during the operation.
+
+<img src="model2.png" width="250">
 
 To start the deploy, use the GUI or the CLI as described above. If you open the result and vote web interfaces during the upgrade you will see how some requests are served by the old version and some are served by the new version, but the application is never inaccessible.
 
