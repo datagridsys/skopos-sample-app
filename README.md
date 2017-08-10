@@ -1,42 +1,32 @@
-[![Join the chat at https://gitter.im/datagridsys/skopos](https://badges.gitter.im/datagridsys/skopos.svg)](https://gitter.im/datagridsys/skopos?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/opsani/skopos](https://badges.gitter.im/opsani/skopos.svg)](https://gitter.im/opsani/skopos?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Sample Skopos application
 ===========================
 
-This is a sample containerized application that can be deployed and upgraded with [Skopos](http://skopos-beta.datagridsys.com/).
+This is a sample containerized application that can be deployed and upgraded with [Skopos](http://opsani.com/skopos/).
 
 The application in question exposes two web interfaces - one that allows votes to be cast and one that shows results. The example below can be used as a guide on how to deploy, upgrade (to a version with modified UI) and tear-down this sample application.
 
 ![skopos sample app](skopos-sample-app.png)
 
-### Download Skopos image
+### Download/Run Skopos image
 
 ```
-docker pull datagridsys/skopos:beta
+docker run -d -p 8100:8100 --restart=unless-stopped --name skopos -v /var/run/docker.sock:/var/run/docker.sock opsani/skopos:edge
 ```
 
-### Extract Skopos CLI
-The CLI is a thin wrapper on top of the Skopos REST API. It is packaged in the same container. The CLI does not need to run on the same host as Skopos, it can be run on any Linux host with network access to the Skopos engine.
+### Open Your Browser
+Open your browser to ```http://localhost:8100``` Note: replace localhost with the actual host or IP address where Skopos runs.
 
-```
-mkdir -p ~/bin
-rm -rf ~/bin/sks-ctl
-touch ~/bin/sks-ctl
-docker run                               \
-    --rm                                 \
-    -v ~/bin/sks-ctl:/skopos/bin/sks-ctl \
-    --entrypoint "/bin/bash"             \
-    datagridsys/skopos:beta              \
-    -c 'cp -a engine /skopos/bin/sks-ctl'
-```
-
-### Clone this repository
+### Clone the repository
 We will need the application model, environment file and same sample scripts which we are using in our model in order to hook up into various stages of the deploy.
 
-```
-git clone https://github.com/datagridsys/skopos-sample-app.git
-```
+![Skopos Main Screen](http://opsani.com/wp-content/uploads/2017/08/Discover1.png)
 
+Click the ```Use Our Demo App``` option.
+Name your demo app and click
+
+![Skopos Main Screen]()
 
 ### Start Skopos engine
 
