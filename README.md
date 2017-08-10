@@ -15,9 +15,9 @@ The CLI is a thin wrapper on top of the Skopos REST API. The CLI does not need t
 
 The sks-ctl utility is a self-contained executable available for the following operating systems:
 
-Linux: https://s3.amazonaws.com/get-skopos/edge/linux/sks-ctl
-OS X: https://s3.amazonaws.com/get-skopos/edge/darwin/sks-ctl
-Windows: https://s3.amazonaws.com/get-skopos/edge/windows/sks-ctl.exe
+    Linux: https://s3.amazonaws.com/get-skopos/edge/linux/sks-ctl
+    OS X: https://s3.amazonaws.com/get-skopos/edge/darwin/sks-ctl
+    Windows: https://s3.amazonaws.com/get-skopos/edge/windows/sks-ctl.exe
 
 To download and install on Linux:
 
