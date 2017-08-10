@@ -18,12 +18,37 @@ docker run -d -p 8100:8100 --restart=unless-stopped --name skopos \
     
 ```
 
-### Open Your Browser
-Open your browser to ```http://localhost:8100``` 
-Note: replace localhost with the actual host or IP address where Skopos runs.
+### Download and Install Skopos CLI
 
-### Clone the repository
+The CLI is a thin wrapper on top of the Skopos REST API. The CLI does not need to run on the same host as Skopos, it can be run on any host with network access to the Skopos engine.
+
+The sks-ctl utility is a self-contained executable available for the following operating systems:
+
+Linux: https://s3.amazonaws.com/get-skopos/edge/linux/sks-ctl
+OS X: https://s3.amazonaws.com/get-skopos/edge/darwin/sks-ctl
+Windows: https://s3.amazonaws.com/get-skopos/edge/windows/sks-ctl.exe
+
+To download and install on Linux:
+
+```
+wget https://s3.amazonaws.com/get-skopos/edge/linux/sks-ctl
+chmod +x sks-ctl
+mkdir -p ~/bin
+mv sks-ctl ~/bin
+```
+
+### Clone this repository
+
 We will need the application model, environment file and same sample scripts which we are using in our model in order to hook up into various stages of the deploy.
+
+```
+git clone https://github.com/datagridsys/skopos-sample-app.git
+```
+
+### Open The Skopos UI
+Open your browser to ```http://localhost:8100``` 
+
+Note: replace `localhost` with the actual host or IP address where Skopos runs.
 
 <img src="http://opsani.com/wp-content/uploads/2017/08/Discover1.png" width="250">
 
@@ -40,7 +65,6 @@ In the Skopos UI, click on your demo app name to view the model (architecture). 
 
 Click ```Switch to Plan``` (button in the upper right corner) to view the generated deployment plan for this particular application. The plan shows the top level of steps to be run (one for each component plus pre- and post- flight steps). The plan would take into consideration any dependencies between components and upgrade them in the correct order. Each of the top level steps can be expanded to view the set of steps that will be performed for each component. The outcome of each step can trigger either the next step (on success) or a rollback to the previous version (on failure).
 
-
 ### Run deploy
 
 Click the start button to Deploy the demo app. The initial deploy may take a few minutes since container images will need to be downloaded. 
@@ -52,16 +76,15 @@ Once deployed, the demo app will be running here:
 
 Note: replace `localhost` with the actual host or IP address where Skopos runs.
 
-
 ### Upgrade to a new version
 This repository contains a second model, where the versions of two of the components - result and vote - are updated to 2.0. You can load the new model with the command below. Skopos would generate a plan for getting from the current state (v1.0) to the desired state as described in the model (v2.0 of vote and result components).
 
 
 ```
-~/bin/sks-ctl load -bind my-ip-or-host:8090 -project skopos-sample -env env.yaml model-v2.yaml
+~/bin/sks-ctl load -bind localhost:8100 -project skopos-sample -env env.yaml model-v2.yaml
 ```
 
-Note: replace `my-ip-or-host` with the actual host or IP address where Skopos runs.
+Note: replace `localhost` with the actual host or IP address where Skopos runs.
 
 Review the new plan in UI. Notice how, unlike the initial deploy, it only changes two components and instead of a deploy it does a rolling upgrade, making sure each component stays responsive during the operation.
 
