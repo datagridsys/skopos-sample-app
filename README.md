@@ -12,66 +12,46 @@ The application in question exposes two web interfaces - one that allows votes t
 ### Download/Run Skopos image
 
 ```
-docker run -d -p 8100:8100 --restart=unless-stopped --name skopos -v /var/run/docker.sock:/var/run/docker.sock opsani/skopos:edge
+
+docker run -d -p 8100:8100 --restart=unless-stopped --name skopos \
+    -v /var/run/docker.sock:/var/run/docker.sock opsani/skopos:edge
+    
 ```
 
 ### Open Your Browser
-Open your browser to ```http://localhost:8100``` Note: replace localhost with the actual host or IP address where Skopos runs.
+Open your browser to ```http://localhost:8100``` 
+Note: replace localhost with the actual host or IP address where Skopos runs.
 
 ### Clone the repository
 We will need the application model, environment file and same sample scripts which we are using in our model in order to hook up into various stages of the deploy.
 
-![Skopos Main Screen](http://opsani.com/wp-content/uploads/2017/08/Discover1.png)
+<img src="http://opsani.com/wp-content/uploads/2017/08/Discover1.png" width="250">
 
 Click the ```Use Our Demo App``` option.
-Name your demo app and click
+Name your demo app and click ```Load```.
 
-![Skopos Main Screen]()
+<img src="DemoApp.png" width="250">
 
-### Start Skopos engine
+### Open the Demo App
 
-Start the Skopos container, passing it the docker socket (so it can manage containers) and the user scripts from this repository. These are sample scripts that illustrate how to hook external systems (i.e. monitoring, release/bug tracking, etc.)  systems into your deploy process.
+In the Skopos UI, click on your demo app name to view the model (architecture). The blue components are those that will change during the deploy.
 
-```
-cd skopos-sample-app
-docker run -d -p 8090:80 --restart=unless-stopped --name skopos   \
-    -v /var/run/docker.sock:/var/run/docker.sock                  \
-    -v $(pwd)/scripts:/skopos/user/bin/         \
-    datagridsys/skopos:beta
-```
+<img src="architecture1.png" width="250">
 
-### Load model for initial deploy
-
-```
-~/bin/sks-ctl load -bind my-ip-or-host:8090 -project skopos-sample -env env.yaml model-v1.yaml
-```
-Note: replace `my-ip-or-host` with the actual host or IP address where Skopos runs.
-
-
-### Open Skopos GUI
-It is available on port 8090 on the host where you are running the container. Review the model - it shows in blue the components that will change during the deploy.
-
-You can switch the to plan (icon in upper right corner) to view the generated plan for this particular deploy. The plan shows the top level of steps to be run (one for each component plus pre- and post- flight steps). The plan would take into consideration any dependencies between components and upgrade them in the correct order. Each of the top level steps can be expanded to view the set of steps that will be performed for each component. The outcome of each step can trigger either the next step (on success) or a rollback to the previous version (on failure).
-
-
-Some of the steps are inserted based on [lifecycle](http://skopos-beta.datagridsys.com/LIFECYCLE-REF/#application-lifecycle) events that were defined in the model file - this allows us to insert our own scripts to be executed at certain places in the plan:
-
-![plan](plan.png)
+Click ```Switch to Plan``` (button in the upper right corner) to view the generated deployment plan for this particular application. The plan shows the top level of steps to be run (one for each component plus pre- and post- flight steps). The plan would take into consideration any dependencies between components and upgrade them in the correct order. Each of the top level steps can be expanded to view the set of steps that will be performed for each component. The outcome of each step can trigger either the next step (on success) or a rollback to the previous version (on failure).
 
 
 ### Run deploy
-Either from the GUI or from CLI. The initial deploy may take a few minutes since container images will need to be downloaded.
 
-```
-~/bin/sks-ctl start -bind my-ip-or-host:8090
-```
+Click the start button to Deploy the demo app. The initial deploy may take a few minutes since container images will need to be downloaded. 
 
-Note: replace `my-ip-or-host` with the actual host or IP address where Skopos runs.
+Once deployed, the demo app will be running here:
 
-After the deploy, the web interface exposed by the sample application would be available at:
+* Vote: http://localhost:8880/
+* Result: http://localhost:8881/
 
-* Vote: http://my-ip-or-host:8880/
-* Result: http://my-ip-or-host:8881/
+Note: replace `localhost` with the actual host or IP address where Skopos runs.
+
 
 ### Upgrade to a new version
 This repository contains a second model, where the versions of two of the components - result and vote - are updated to 2.0. You can load the new model with the command below. Skopos would generate a plan for getting from the current state (v1.0) to the desired state as described in the model (v2.0 of vote and result components).
