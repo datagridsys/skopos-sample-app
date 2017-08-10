@@ -92,14 +92,18 @@ Review the new plan in UI. Notice how, unlike the initial deploy, it only change
 
 <img src="model2.png" width="250">
 
-To start the deploy, use the GUI or the CLI as described above. If you open the result and vote web interfaces during the upgrade you will see how some requests are served by the old version and some are served by the new version, but the application is never inaccessible.
+Click the start button to Deploy the update to the demo app. If you open the result and vote web interfaces during the upgrade you will see how some requests are served by the old version and some are served by the new version, but the application is never inaccessible.
 
+* Vote: http://localhost:8880/
+* Result: http://localhost:8881/
+
+Note: replace `localhost` with the actual host or IP address where Skopos runs.
 
 ### Tear down the application
-If you want to remove all containers for our sample application, run the following command. This example loads and starts the deploy in a single command. Progress can be still viewed in the Skopos UI (or over the API).
+If you want to remove all containers for our sample application, run the following command or use the "Teardown" option in the UI.
 
 ```
-~/bin/sks-ctl run -bind my-ip-or-host:8090 -mode teardown -project skopos-sample -env env.yaml model-v2.yaml
+~/bin/sks-ctl run -bind localhost:8100 -mode teardown -project skopos-sample -env env.yaml model-v2.yaml
 ```
 
-Note: replace `my-ip-or-host` with the actual host or IP address where Skopos runs.
+Note: replace `localhost` with the actual host or IP address where Skopos runs.
