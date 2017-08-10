@@ -107,3 +107,14 @@ If you want to remove all containers for our sample application, run the followi
 ```
 
 Note: replace `localhost` with the actual host or IP address where Skopos runs.
+
+### Next steps
+
+Now that you have deployed your first - and second - application with Skopos, here are a few things you can try next:
+
+Set up [continuous deployment with Skopos Auto-Pilot or Jenkins CI/CD](http://doc.opsani.com/skopos/edge/CICD/)
+Add [chatops with Slack](http://doc.opsani.com/skopos/edge/CHATOPS/)
+See some of the [standard deployment environments](http://doc.opsani.com/skopos/edge/TED-GUIDE/#standard-target-environment-files) Skopos supports
+... or just look at the [full Skopos Documentation](http://doc.opsani.com/skopos/edge).
+
+You can also reach out to us on [Gitter](https://gitter.im/opsani/skopos).
